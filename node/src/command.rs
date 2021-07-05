@@ -23,23 +23,23 @@ fn load_spec(
 ) -> std::result::Result<Box<dyn sc_service::ChainSpec>, String> {
 	Ok(match id {
 		// Rococo
-		#[cfg(feature = "rococo-native")]
+		// #[cfg(feature = "rococo-native")]
 		"" | "local"   => Box::new(chain_spec::local_environment_config(para_id,"rococo-local")),
-		#[cfg(feature = "rococo-native")]
+		// #[cfg(feature = "rococo-native")]
 		"kylin-rococo-dev" => Box::new(chain_spec::development_environment_config(para_id,"rococo-dev")),
-		#[cfg(feature = "rococo-native")]
+		// #[cfg(feature = "rococo-native")]
 		"kylin-rococo" => Box::new(chain_spec::rococo_test_net(para_id)),
 
 		// Westend
-		#[cfg(feature = "westend-native")]
+		// #[cfg(feature = "westend-native")]
 		"kylin-westend-local" => Box::new(chain_spec::local_environment_config(para_id,"westend-local")),
-		#[cfg(feature = "westend-native")]
+		// #[cfg(feature = "westend-native")]
 		"kylin-westend-dev" => Box::new(chain_spec::development_environment_config(para_id,"westend-dev")),
 
 		// Kusama
-		#[cfg(feature = "kusama-native")]
+		// #[cfg(feature = "kusama-native")]
 		"kylin-kusama-local" => Box::new(chain_spec::local_environment_config(para_id,"kusama-local")),
-		#[cfg(feature = "kusama-native")]
+		// #[cfg(feature = "kusama-native")]
 		"kylin-kusama-dev" => Box::new(chain_spec::development_environment_config(para_id,"kusama-dev")),
 		path => Box::new(chain_spec::ChainSpec::from_json_file(
 			std::path::PathBuf::from(path),
