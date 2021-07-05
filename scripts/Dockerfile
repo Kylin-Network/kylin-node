@@ -1,12 +1,12 @@
 # build kylin-node
-FROM kylinnetwork/polkadot:polkadot-v0.9.4 as builder
+FROM kylinnetwork/polkadot:polkadot-v0.9.7 as builder
 
 LABEL maintainer="kylin-dev"
 ARG RUST_VERSION=1.51.0
 ARG PROFILE=release
 ARG KYLIN_GIT_REPO="https://github.com/Kylin-Network/kylin-node.git"
 ARG DOT_GIT_REPO="https://github.com/paritytech/polkadot.git"
-ARG GIT_BRANCH="polkadot-v0.9.4"
+ARG GIT_BRANCH="polkadot-v0.9.7"
 WORKDIR /builds/
 #Build Kylin-node
 RUN git clone --recursive ${KYLIN_GIT_REPO}
