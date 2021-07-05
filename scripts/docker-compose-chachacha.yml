@@ -1,14 +1,14 @@
 version: "3.2"
 
 services:
-  alice:
-    container_name: alice
+  validator-1:
+    container_name: validator-1
     image: kylinnetwork/kylin-node:polkadot-v0.9.7
     ports:
       - "9934:9934"
       - "9944:9944"
       - "30335:30335"
-    command: bash -c "/polkadot --unsafe-ws-external --rpc-cors all --wasm-execution Compiled --rpc-external --rpc-methods Unsafe -d cumulus_relay/alice --validator --alice --ws-port 9944 --port 30335 --rpc-port 9934 --name alice --chain rococo-chachacha.json"
+    command: bash -c "/polkadot --unsafe-ws-external --rpc-cors all --wasm-execution Compiled --rpc-external --rpc-methods Unsafe -d cumulus_relay/validator-1 --validator --ws-port 9944 --port 30335 --rpc-port 9934 --name kylin-validator-1 --chain rococo-chachacha.json"
     volumes:
       - ./kylin_db/cumulus_relay:/cumulus_relay/
       - ./rococo-chachacha.json:/rococo-chachacha.json
@@ -21,37 +21,37 @@ services:
       - "9933:9933"
       - "30333:30333"
       - "30334:30334"
-    command: bash -c "sleep 45;/kylin-node --unsafe-ws-external --rpc-cors all  --rpc-external --rpc-methods Unsafe -d cumulus_parachain/alice --collator --alice --force-authoring --ws-port 9942 --port 30333 --rpc-port 9933 --parachain-id 2013 -- --wasm-execution Compiled --port 30334 --chain rococo-chachacha.json"
+    command: bash -c "sleep 45;/kylin-node --unsafe-ws-external --rpc-cors all  --rpc-external --rpc-methods Unsafe -d cumulus_parachain/kylin-collator-1 --collator --name kylin-collator-1 --force-authoring --ws-port 9942 --port 30333 --rpc-port 9933 --parachain-id 2013 -- --wasm-execution Compiled --port 30334 --chain rococo-chachacha.json"
     volumes:
       - ./kylin_db/cumulus_parachain:/cumulus_parachain/
       - ./rococo-chachacha.json:/rococo-chachacha.json
     depends_on:
-      - alice
+      - validator-1
 
-  bob:
-    container_name: bob
+  validator-2:
+    container_name: validator-2
     image: kylinnetwork/kylin-node:polkadot-v0.9.7
     ports:
       - "9935:9935"
       - "9955:9955"
       - "30336:30336"
-    command: bash -c "sleep 45;/polkadot --unsafe-ws-external --rpc-cors all --wasm-execution Compiled --rpc-external --rpc-methods Unsafe -d cumulus_relay/bob --validator --bob --ws-port 9955 --port 30336 --rpc-port 9935 --name bob --chain rococo-chachacha.json"
+    command: bash -c "sleep 45;/polkadot --unsafe-ws-external --rpc-cors all --wasm-execution Compiled --rpc-external --rpc-methods Unsafe -d cumulus_relay/validator-2 --validator --ws-port 9955 --port 30336 --rpc-port 9935 --name kylin-validator-2 --chain rococo-chachacha.json"
     volumes:
       - ./kylin_db/cumulus_relay:/cumulus_relay/
       - ./rococo-chachacha.json:/rococo-chachacha.json
     depends_on:
-      - alice
+      - validator-1
 
-  charlie:
-    container_name: charlie
+  validator-3:
+    container_name: validator-3
     image: kylinnetwork/kylin-node:polkadot-v0.9.7
     ports:
       - "9936:9936"
       - "9956:9956"
       - "30337:30337"
-    command: bash -c "sleep 30; /polkadot --unsafe-ws-external --rpc-cors all --wasm-execution Compiled --rpc-external --rpc-methods Unsafe -d cumulus_relay/charlie --validator --charlie --ws-port 9956 --port 30337 --rpc-port 9936 --name charlie --chain rococo-chachacha.json"
+    command: bash -c "sleep 30; /polkadot --unsafe-ws-external --rpc-cors all --wasm-execution Compiled --rpc-external --rpc-methods Unsafe -d cumulus_relay/validator-3 --validator --ws-port 9956 --port 30337 --rpc-port 9936 --name kylin-validator-3 --chain rococo-chachacha.json"
     depends_on:
-      - bob
+      - validator-2
     volumes:
       - ./kylin_db/cumulus_relay:/cumulus_relay/
       - ./rococo-chachacha.json:/rococo-chachacha.json
